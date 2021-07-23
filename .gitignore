@@ -4,3 +4,4 @@
 build/
 __pycache__/
 quad_controller/
+/CMakeLists.txt
