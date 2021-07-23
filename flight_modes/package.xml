@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package format="2">
+
+  <name>flight_modes</name>
+
+  <version>0.0.1</version>
+
+  <description>The flight_modes package is used for controlling quadrotor in different flight modes (Hover, Cruise, Spin)</description>
+
+  <maintainer email="siaemam@gmail.com">Siavash Emami</maintainer>
+
+  <license>BSD</license>
+
+  <url type="repository">https://github.com/siavash1999/IDAS-quadrotor</url>
+
+  <author email="siaemam@gmail.com">Siavash Emami</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>stdmsgs</build_depend>
+  <build_export_depend>roscpp</build_export_depend>
+  <build_export_depend>rospy</build_export_depend>
+  <build_export_depend>stdmsgs</build_export_depend>
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>stdmsgs</exec_depend>
+</package>

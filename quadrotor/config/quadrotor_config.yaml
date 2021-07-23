@@ -1,0 +1,13 @@
+#Parameters needed for LQR controller. Stored in /quadrotor namespace
+geometry:
+    d: 0.25            #Distant of propeller motors from center of quadrotor
+inertia:
+    mass: 2            #Mass of quadrotor
+    Ixx: 0.02130267    #Moment of inertia of quadrotor along X axis
+    Iyy: 0.02130267    #Moment of inertia of quadrotor along Y axis
+    Izz: 0.041772      #Moment of inertia of quadrotor along Z axis
+aerodynamic:
+    ct: 1.276e-5       #Thrust coefficient of propellers
+    cm: 1.747e-7       #Momemnt coefficient of propellers
+    cd: 8.268e-2       #Drag coefficient of propellers
+

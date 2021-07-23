@@ -1,0 +1,60 @@
+<launch>
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="world_name" value="$(find quadrotor)/worlds/IDAS_empty.world" />
+		<arg name="paused" default="true" />
+		<arg name="use_sim_time" default="true" />
+		<arg name="gui" default="true" />
+		<arg name="headless" default="false" />
+		<arg name="debug" default="false" />
+		<!-- <arg name="verbose" value="true" /> -->
+	</include>
+	
+	<group ns="quadrotor">
+		<!-- Convert xacro and put on parameter server -->
+		<param name="robot_description"
+		       command="$(find xacro)xacro '$(find quadrotor)/urdf/IDAS_quadrotor.xacro'" />
+
+		<!-- Spawn quadrotor into Gazebo -->
+		<node name="spawn_urdf"
+		      pkg="gazebo_ros"
+		      type="spawn_model"
+		      respawn="false"
+		      output="screen"
+		      args="-param robot_description -urdf -model quadrotor" />
+
+		<!-- Load motor controller related parameters -->
+		<rosparam file="$(find quadrotor)/config/controller_config.yaml"
+		          command="load"
+		          ns="/quadrotor" />
+		
+		<!-- Load parameters needed for LQR algorithm -->   
+		<rosparam file="$(find quadrotor)/config/quadrotor_config.yaml"
+		          command="load" />
+		
+		<!-- Spawn Motor Controller Node -->
+		<node name="control_spawner"
+		      pkg="controller_manager"
+		      type="spawner"
+		      respawn="false"
+		      output="screen"
+		      args="--namespace=/quadrotor joint_state_controller joint_motor_controller"/>
+		
+		<!-- Run Node for Publishing Qaudrotors State With Desired Frequency -->
+		<node name="robot_state_publisher"
+		      pkg="robot_state_publisher"
+		      type="robot_state_publisher"
+		      respawn="false"
+		      output="screen">
+			    <remap from="/joint_states" to="/quadrotor/joint_states" />
+			    <param name="publish_frequency"
+			           type="double"
+			           value="5.0" />
+		</node>
+		
+		<!-- Run Node for syncing State Publisher and motor commander message passing -->
+		<node name="state_throttler"
+		      type="throttle"
+		      pkg="topic_tools"
+		      args="messages /gazebo/model_states 50 /gazebo/model_states_throttle" />
+	</group>
+</launch>
