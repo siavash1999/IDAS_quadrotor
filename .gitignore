@@ -1,4 +1,6 @@
 *.a
 *.so
+*.pyc
 build/
-
+__pycache__/
+quad_controller/
