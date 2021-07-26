@@ -42,7 +42,7 @@ def Hover(roll, pitch, yaw, p, q, r, u, v, w, x, y, z, motor_vels):
 	#----------------------------------------------------------------------------------------------
 	#Define State and Input Matrices:
 	A = [[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],\
-             [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],\
+         [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],\
 	     [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],\
 	     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],\
 	     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],\
@@ -88,7 +88,7 @@ def Hover(roll, pitch, yaw, p, q, r, u, v, w, x, y, z, motor_vels):
 	K, S, E = lqr(A, B, Q, R)
 	K = np.array(Correction2D(K))
 	
-	#Computing Input signals based on Moments and thrust force:
+	#Computing Input signals as Moments and Thrust Force (input_signal = [Ft, Mx, My, Mz]):
 	input_signal_temp = np.dot(K,error_signal)
 	input_signal = [0, 0, 0, 0]
 	input_signal[0] = (input_signal_temp[0] + m*g)/Ct

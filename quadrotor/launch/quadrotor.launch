@@ -1,7 +1,7 @@
 <launch>
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">
 		<arg name="world_name" value="$(find quadrotor)/worlds/IDAS_empty.world" />
-		<arg name="paused" default="true" />
+		<arg name="paused" default="false" />
 		<arg name="use_sim_time" default="true" />
 		<arg name="gui" default="true" />
 		<arg name="headless" default="false" />
@@ -48,7 +48,7 @@
 			    <remap from="/joint_states" to="/quadrotor/joint_states" />
 			    <param name="publish_frequency"
 			           type="double"
-			           value="5.0" />
+			           value="50" />
 		</node>
 		
 		<!-- Run Node for syncing State Publisher and motor commander message passing -->

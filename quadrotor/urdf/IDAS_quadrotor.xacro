@@ -30,6 +30,9 @@
 	</xacro:macro>
 
 <!-- ======================================================== -->
+	<!-- Dommy Link so tthat Gazebo won't show warning -->
+	<link name="dommy_link" />
+	
 	<!-- Frame of quadrotor (A red box!) -->
 	<link name="frame">
 		<visual>
@@ -51,8 +54,7 @@
 		
 		<xacro:default_inertial mass="${frame_mass}" p="0" ix_value="${0.02130267}" iy_value="${0.02130267}" iz_value="${0.041772}" />
 	</link>
-	
-	<!-- ======================================================== -->
+
 	<!-- Propellers (4 black boxes!) -->
 	<link name="prop_front_right">
 		<visual>
@@ -139,6 +141,13 @@
 	</link>
 
 <!-- ======================================================== -->
+	<!-- Dommy Joint to connect Dommy link to frame link -->
+	<joint name="dommy_joint" type="fixed">
+		<parent link="dommy_link" />
+		<child link="frame" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </joint>
+	
 	<!-- Define joint between props and frame -->
 	<joint name="joint_front_right_prop" type="continuous">
 		<parent link="frame" />

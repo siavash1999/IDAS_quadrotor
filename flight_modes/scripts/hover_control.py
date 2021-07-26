@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
 #--------------------------------------------------------------------------------------------------
-from hover import Hover
 import rospy
 from gazebo_msgs.msg import ModelStates
 from std_msgs.msg import Float64MultiArray, Float32, Float64
 from geometry_msgs.msg import Pose, Twist
 from tf.transformations import euler_from_quaternion
-from qrotation import qv_mult
-
-#--------------------------------------------------------------------------------------------------
-
+from flight_modes.qrotation import qv_mult
+from flight_modes.hover import Hover
 
 #--------------------------------------------------------------------------------------------------
 def Hover_quad(msg, arg):
@@ -43,7 +40,7 @@ def Hover_quad(msg, arg):
 
 #--------------------------------------------------------------------------------------------------
 #Initiate the node that will control the gazebo model
-rospy.init_node("Hover_control")
+rospy.init_node("hover_control")
 
 #initialte publisher velPub that will publish the velocities of individual BLDC motors
 velPub = rospy.Publisher('/quadrotor/joint_motor_controller/command', Float64MultiArray, queue_size = 50)

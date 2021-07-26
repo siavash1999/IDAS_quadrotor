@@ -15,7 +15,7 @@ Put the name of your workspace insted of [workspace_name] in the command above.
 
 ### 2.Building PropPlugin
 In this project a Model plugin is written for gazebo that needs to be built using CMake. In order to build the shared library for plugin, following procedure must be done:
-```bsah
+```bash
 cd ~/[workspace_name]/src/PropPlugin
 mkdir build
 cd ./build
@@ -27,6 +27,17 @@ And then we should add the shared library directory to .bashrc file:
 cd ~
 echo 'export GAZEBO_PLUGIN_PATH=${GAZEBO_PLUGIN_PATH}:~/[workspace_name]/src/PropPlugin/build' >> .bashrc
 ```
+
+### 3.Making ROS python Packages
+
+As strange as it may seem, catkin python packages have a build stage in which the modules used in scripts are added to PYTHONPATH. The whole explaination is available in wiki page (soon, hopefully!). For building all that needs to be done is to follow below procedure:
+```bash
+cd ~/[workspacename]
+catkin_make
+```
+This command will invoke CMakeLists.txt files in all packages and makes ``` /build ``` and ``` /devel ``` subdirectories in workspace.
+[More About ROS Python Makefile](http://wiki.ros.org/rospy_tutorials/Tutorials/Makefile)
+
 ## How To Use
 First the core node of ROS must be launched using command `roscore` in one terminal. Then in another Terminal, `robot_description` can be uploaded into ROS parameter server and spawned in gazebo using 'roslaunch' :
 ```bash
