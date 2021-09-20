@@ -1,19 +1,38 @@
 # IDAS-quadrotor
 ## Description
 This Repository contains a model of a simple quadrotor and controllers made by ROS and simulated using Gazebo. This project is not intended to be applicable in general (since it's a final project for a bachelor degree only) but the goal is to improve it as much as possible and make a decent metapackage for beginners and for people searching for simple ROS or quadrotor simulation projects on internet.
+The control methods used in this project are full-state controller and PID controller.
+
+### TODO
+1. update `flight_mode` package.
 
 ## Installation
-### 1.Initializing Workspace
+
+### 1.Installing dependencies
+First you have to install these packages:
+1. Install [ROS desktop full](http://wiki.ros.org/noetic/Installation/Ubuntu) which installs Gazebo too.
+2. Install PID package for your ROS distro.
+```bash
+sudo apt-get install ros-noetic-pid
+```
+3. Install numpy.
+```bash
+sudo apt install python3-numpy
+```
+
+### 2.Initializing Workspace
 To use packages, first you need to make a catkin workspace, then clone the repository in src subdirectory in your workspace.
 afterwards its proper to source your workspace in .bashrc file so whenever you open a new terminal you don't have to source it manually:
 ```bash
 cd ~
 echo 'source ~/[workspace_name]/devel/setup.bash' >> .bashrc
+cd ~/[workspace_name]/src/
+git clone https://github.com/siavash1999/IDAS-quadrotor.git
 ```
 Put the name of your workspace insted of [workspace_name] in the command above.
 [More About Catkin Workspace](http://wiki.ros.org/catkin/workspaces)
 
-### 2.Building PropPlugin
+### 3.Building PropPlugin
 In this project a Model plugin is written for gazebo that needs to be built using CMake. In order to build the shared library for plugin, following procedure must be done:
 ```bash
 cd ~/[workspace_name]/src/PropPlugin
@@ -28,7 +47,7 @@ cd ~
 echo 'export GAZEBO_PLUGIN_PATH=${GAZEBO_PLUGIN_PATH}:~/[workspace_name]/src/PropPlugin/build' >> .bashrc
 ```
 
-### 3.Making ROS python Packages
+### 4.Making ROS python Packages
 
 As strange as it may seem, catkin python packages have a build stage in which the modules used in scripts are added to PYTHONPATH. The whole explaination is available in wiki page (soon, hopefully!). For building all that needs to be done is to follow below procedure:
 ```bash
@@ -39,23 +58,14 @@ This command will invoke CMakeLists.txt files in all packages and makes ``` /bui
 [More About ROS Python Makefile](http://wiki.ros.org/rospy_tutorials/Tutorials/Makefile)
 
 ## How To Use
-First the core node of ROS must be launched using command `roscore` in one terminal. Then in another Terminal, `robot_description` can be uploaded into ROS parameter server and spawned in gazebo using 'roslaunch' :
+First the core node of ROS must be launched using command `roscore` in one terminal. Then in another Terminal, `robot_description` can be uploaded into ROS parameter server and spawned in gazebo using `roslaunch` :
 ```bash
 roslaunch quadrotor quadrotor.launch
 ```
-Now using `hover_control.py` node, the quadrotor model will rise up from ground and hover in an approximate altitude of 5m above ground. make sure that simulation is not paused when running the node.
+Now using `controller.launch` launch file, the quadrotor model will rise up from ground and hover in an approximate altitude of 1m above ground. make sure that simulation is not paused when launching.
 ```bash
-rosrun flight_mdoes hover_control.py
+roslaunch quadrotor controller.launch
 ```
-## To Do
-1. Making other flight modes (Cruise and Spin) Nodes for package `flight_modes` .
-2. Using a seperate package for subscribing setpoint from client and deciding what flight mode or sequence of flight modes are needed to achieve the goal.
-3. Replacing VelocityBasedControllers with EffortBasedControllers.
-4. Tuning EffortBasedController gains (PID gains) to achieve best behavior.
-5. Making a better model of quadrotor (for now it's just a red box with 4 black boxes.)
-6. For now, hover_control node is written based on a x configuration of propellers in drones. Adding a parameter to define if the drone is + or x configured and changing the FtoS matrix in hover_control (and other flight mode nodes in future) to more general form, including + configuration too. 
-7. Making packages more general and applicable for other drones.
-8. Making Path Planning packages!
 
 ## Contribution
 Feel free to contact package maintainer, all questions, critisim and bug/issue reports are welcome and you can find maintainer Email address in Package.xml manifest files of all packages.
