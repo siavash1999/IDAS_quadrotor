@@ -6,9 +6,9 @@
 		<arg name="gui" default="true" />
 		<arg name="headless" default="false" />
 		<arg name="debug" default="false" />
-		<!-- <arg name="verbose" value="true" /> -->
+		<arg name="verbose" value="false" />
 	</include>
-	
+
 	<group ns="quadrotor">
 		<!-- Convert xacro and put on parameter server -->
 		<param name="robot_description"
@@ -26,35 +26,35 @@
 		<rosparam file="$(find quadrotor)/config/controller_config.yaml"
 		          command="load"
 		          ns="/quadrotor" />
-		
-		<!-- Load parameters needed for LQR algorithm -->   
+
+		<!-- Load parameters for quadrotor object -->
 		<rosparam file="$(find quadrotor)/config/quadrotor_config.yaml"
 		          command="load" />
-		
+
+		<!-- Load parameters for setpoint -->
+		<rosparam file="$(find quadrotor)/config/setpoint_config.yaml"
+		          command="load" />
+
 		<!-- Spawn Motor Controller Node -->
 		<node name="control_spawner"
 		      pkg="controller_manager"
 		      type="spawner"
 		      respawn="false"
 		      output="screen"
-		      args="--namespace=/quadrotor joint_state_controller joint_motor_controller"/>
-		
-		<!-- Run Node for Publishing Qaudrotors State With Desired Frequency -->
-		<node name="robot_state_publisher"
-		      pkg="robot_state_publisher"
-		      type="robot_state_publisher"
-		      respawn="false"
-		      output="screen">
-			    <remap from="/joint_states" to="/quadrotor/joint_states" />
-			    <param name="publish_frequency"
-			           type="double"
-			           value="50" />
-		</node>
-		
-		<!-- Run Node for syncing State Publisher and motor commander message passing -->
-		<node name="state_throttler"
-		      type="throttle"
-		      pkg="topic_tools"
-		      args="messages /gazebo/model_states 50 /gazebo/model_states_throttle" />
+		      args="--namespace=/quadrotor joint_state_publisher motor_controller"/>
+
+		<node name="joint_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+	    respawn="false" output="screen">
+	    <remap from="/joint_states" to="/quadrotor/joint_states" />
+	  </node>
+		<!-- Run Node to start quadrotor computation process -->
+		<node name="quadrotor"
+			  type="quadrotor_init.py"
+		      pkg="quadrotor" />
+
+		<!-- Run Node to publish setpoint states -->
+		<node name="setpoint"
+			    type="setpoint.py"
+					pkg="quadrotor" />
 	</group>
 </launch>

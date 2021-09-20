@@ -30,9 +30,6 @@
 	</xacro:macro>
 
 <!-- ======================================================== -->
-	<!-- Dommy Link so tthat Gazebo won't show warning -->
-	<link name="dommy_link" />
-	
 	<!-- Frame of quadrotor (A red box!) -->
 	<link name="frame">
 		<visual>
@@ -40,191 +37,187 @@
 			<geometry>
 				<box size="${width} ${length} ${height}" />
 			</geometry>
-			
+
 			<material name="red" />
 		</visual>
-		
+
 		<collision>
 			<origin xyz="0 0 ${height/2}" rpy="0 0 0" />
 			<geometry>
 				<box size="${width} ${length} ${height}" />
 			</geometry>
-			
+
 		</collision>
-		
+
 		<xacro:default_inertial mass="${frame_mass}" p="0" ix_value="${0.02130267}" iy_value="${0.02130267}" iz_value="${0.041772}" />
 	</link>
 
 	<!-- Propellers (4 black boxes!) -->
-	<link name="prop_front_right">
+	<link name="propeller_1">
 		<visual>
 			<origin xyz="0 0 0" rpy="0 0 0" />
-			
+
 			<geometry>
 				<box size="${0.03302/3} ${2*propeller_radius} ${0.001}" />
 			</geometry>
-			
-			<material name="black" />
+
+			<material name="white" />
 		</visual>
-		
+
 		<collision>
 			<origin xyz="0 0 0" rpy="0 0 0" />
-			
+
 			<geometry>
 				<box size="${0.03302/3} ${2*propeller_radius} ${0.001}" />
 			</geometry>
 		</collision>
-		<xacro:default_inertial mass="${propeller_mass}" p="0" ix_value="${7.3929e-6}" iy_value="${0}" iz_value="${7.4480e-6}" />	
+		<xacro:default_inertial mass="${propeller_mass}" p="0" ix_value="${7.3929e-6}" iy_value="${0}" iz_value="${7.4480e-6}" />
 	</link>
 
-	<link name="prop_front_left">
+	<link name="propeller_2">
 		<visual>
 			<origin xyz="0 0 0" rpy="0 0 0" />
-			
+
 			<geometry>
 				<box size="${0.03302/3} ${2*propeller_radius} ${0.001}" />
 			</geometry>
-			
+
 			<material name="black" />
 		</visual>
-		
+
 		<collision>
 			<origin xyz="0 0 0" rpy="0 0 0" />
-			
+
 			<geometry>
 				<box size="${0.03302/3} ${2*propeller_radius} ${0.001}" />
 			</geometry>
 		</collision>
-		<xacro:default_inertial mass="${propeller_mass}" p="0" ix_value="${7.3929e-6}" iy_value="${0}" iz_value="${7.4480e-6}" />	
+		<xacro:default_inertial mass="${propeller_mass}" p="0" ix_value="${7.3929e-6}" iy_value="${0}" iz_value="${7.4480e-6}" />
 	</link>
-	
-		<link name="prop_back_right">
+
+	<link name="propeller_3">
 		<visual>
 			<origin xyz="0 0 0" rpy="0 0 0" />
-			
+
 			<geometry>
 				<box size="${0.03302/3} ${2*propeller_radius} ${0.001}" />
 			</geometry>
-			
+
 			<material name="black" />
 		</visual>
-		
+
 		<collision>
 			<origin xyz="0 0 0" rpy="0 0 0" />
-			
+
 			<geometry>
 				<box size="${0.03302/3} ${2*propeller_radius} ${0.001}" />
 			</geometry>
 		</collision>
-		<xacro:default_inertial mass="${propeller_mass}" p="0" ix_value="${7.3929e-6}" iy_value="${0}" iz_value="${7.4480e-6}" />	
+		<xacro:default_inertial mass="${propeller_mass}" p="0" ix_value="${7.3929e-6}" iy_value="${0}" iz_value="${7.4480e-6}" />
 	</link>
-	
-		<link name="prop_back_left">
+
+	<link name="propeller_4">
 		<visual>
 			<origin xyz="0 0 0" rpy="0 0 0" />
-			
+
 			<geometry>
 				<box size="${0.03302/3} ${2*propeller_radius} ${0.001}" />
 			</geometry>
-			
-			<material name="black" />
+
+			<material name="white" />
 		</visual>
-		
+
 		<collision>
 			<origin xyz="0 0 0" rpy="0 0 0" />
-			
+
 			<geometry>
 				<box size="${0.03302/3} ${2*propeller_radius} ${0.001}" />
 			</geometry>
 		</collision>
-		<xacro:default_inertial mass="${propeller_mass}" p="0" ix_value="${7.3929e-6}" iy_value="${0}" iz_value="${7.4480e-6}" />	
+		<xacro:default_inertial mass="${propeller_mass}" p="0" ix_value="${7.3929e-6}" iy_value="${0}" iz_value="${7.4480e-6}" />
 	</link>
 
 <!-- ======================================================== -->
-	<!-- Dommy Joint to connect Dommy link to frame link -->
-	<joint name="dommy_joint" type="fixed">
-		<parent link="dommy_link" />
-		<child link="frame" />
-        <origin xyz="0 0 0" rpy="0 0 0" />
-    </joint>
-	
 	<!-- Define joint between props and frame -->
-	<joint name="joint_front_right_prop" type="continuous">
+	<!-- NOTE: it is essential to check where is each propeller.
+	           signs in "flight_modes" package and gazebo plugin
+	           "PropPlugin" should match! -->
+	<joint name="joint_propeller_1" type="continuous">
 		<parent link="frame" />
-		<child link="prop_front_right" />
+		<child link="propeller_1" />
 		<origin xyz="${prop_loc} ${prop_loc} ${height+(0.001/2)}" rpy="0 0 0"/>
 		<axis xyz="0 0 1" />
 	</joint>
 
-	<joint name="joint_front_left_prop" type="continuous">
+	<joint name="joint_propeller_2" type="continuous">
 		<parent link="frame" />
-		<child link="prop_front_left" />
+		<child link="propeller_2" />
 		<origin xyz="${-prop_loc} ${prop_loc} ${height+(0.001/2)}" rpy="0 0 0" />
 		<axis xyz="0 0 1" />
 	</joint>
 
-	<joint name="joint_back_right_prop" type="continuous">
+	<joint name="joint_propeller_3" type="continuous">
 		<parent link="frame" />
-		<child link="prop_back_right" />
-		<origin xyz="${prop_loc} ${-prop_loc} ${height+(0.001/2)}" rpy="0 0 0" />
+		<child link="propeller_3" />
+		<origin xyz="${-prop_loc} ${-prop_loc} ${height+(0.001/2)}" rpy="0 0 0" />
 		<axis xyz="0 0 1" />
 	</joint>
 
-	<joint name="joint_back_left_prop" type="continuous">
+	<joint name="joint_propeller_4" type="continuous">
 		<parent link="frame" />
-		<child link="prop_back_left" />
-		<origin xyz="${-prop_loc} ${-prop_loc} ${height+(0.001/2)}" rpy="0 0 0" />
+		<child link="propeller_4" />
+		<origin xyz="${prop_loc} ${-prop_loc} ${height+(0.001/2)}" rpy="0 0 0" />
 		<axis xyz="0 0 1" />
 	</joint>
 
 <!-- ======================================================== -->
 	<!-- Define Transmission Element for Propellers -->
-	<transmission name="front_right_motor_joint">
+	<transmission name="motor_1">
 		<type>transmission_interface/SimpleTransmission</type>
-		
-		<joint name="joint_front_right_prop">
+
+		<joint name="joint_propeller_1">
 			<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
 		</joint>
-		
+
 		<actuator name="BLDC_motor1">
 			<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
 			<mechanicalReduction>1</mechanicalReduction>
 		</actuator>
 	</transmission>
-	
-	<transmission name="front_left_motor_joint">
+
+	<transmission name="motor_2">
 		<type>transmission_interface/SimpleTransmission</type>
-		
-		<joint name="joint_front_left_prop">
+
+		<joint name="joint_propeller_2">
 			<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
 		</joint>
-		
+
 		<actuator name="BLDC_motor2">
 			<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
 			<mechanicalReduction>1</mechanicalReduction>
 		</actuator>
 	</transmission>
-	
-	<transmission name="back_right_motor_joint">
+
+	<transmission name="motor_3">
 		<type>transmission_interface/SimpleTransmission</type>
-		
-		<joint name="joint_back_right_prop">
+
+		<joint name="joint_propeller_3">
 			<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
 		</joint>
-		
+
 		<actuator name="BLDC_motor3">
 			<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
 			<mechanicalReduction>1</mechanicalReduction>
 		</actuator>
 	</transmission>
-	
-	<transmission name="back_left_motor_joint">
+
+	<transmission name="motor_4">
 		<type>transmission_interface/SimpleTransmission</type>
-		
-		<joint name="joint_back_left_prop">
+
+		<joint name="joint_propeller_4">
 			<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
 		</joint>
-		
+
 		<actuator name="BLDC_motor4">
 			<hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
 			<mechanicalReduction>1</mechanicalReduction>

@@ -2,63 +2,91 @@
 
 <robot>
 	<gazebo reference="frame">
+		<mu1>0</mu1>
+    <mu2>0</mu2>
+		<selfCollide>0</selfCollide>
 		<material>Gazebo/Red</material>
 	</gazebo>
-	
-	<gazebo reference="prop_front_right">
+
+	<gazebo reference="propeller_1">
+		<mu1>0</mu1>
+    <mu2>0</mu2>
+		<selfCollide>0</selfCollide>
+		<material>Gazebo/White</material>
+	</gazebo>
+
+	<gazebo reference="propeller_2">
+		<mu1>0</mu1>
+    <mu2>0</mu2>
+		<selfCollide>0</selfCollide>
 		<material>Gazebo/Black</material>
 	</gazebo>
-	
-	<gazebo reference="prop_front_left">
+
+	<gazebo reference="propeller_3">
+		<mu1>0</mu1>
+    <mu2>0</mu2>
+		<selfCollide>0</selfCollide>
 		<material>Gazebo/Black</material>
 	</gazebo>
-	
-	<gazebo reference="prop_back_right">
-		<material>Gazebo/Black</material>
-	</gazebo>
-	
-	<gazebo reference="prop_back_left">
-		<material>Gazebo/Black</material>
+
+	<gazebo reference="propeller_4">
+		<mu1>0</mu1>
+    <mu2>0</mu2>
+		<selfCollide>0</selfCollide>
+		<material>Gazebo/White</material>
 	</gazebo>
 
 <!-- ======================================================== -->
 	<!-- Define the lift-Drag plugin -->
+	<!-- for drag -->
+	<!-- <gazebo>
+		<plugin name="quad_body" filename="libUAVDynamicsPlugin.so">
+			<type>drag</type>
+			<cd>8.268e-2</cd>
+			<frame_link>frame</frame_link>
+		</plugin>
+	</gazebo> -->
+
 	<gazebo>
 		<!-- Provide a Positive Velocity -->
-		<plugin name="quad_prop1" filename="libPropPlugin.so">
+		<plugin name="quad_prop1" filename="libUAVDynamicsPlugin.so">
+			<type>thrust</type>
 			<ct>1.276e-5</ct>
 			<clockwise>0</clockwise>
-			<link_name>prop_front_right</link_name>
+			<propeller_link>propeller_1</propeller_link>
 		</plugin>
 	</gazebo>
-	
+
 	<gazebo>
 		<!-- Provide a Negative Velocity -->
-		<plugin name="quad_prop2" filename="libPropPlugin.so">
+		<plugin name="quad_prop2" filename="libUAVDynamicsPlugin.so">
+			<type>thrust</type>
 			<ct>1.276e-5</ct>
 			<clockwise>1</clockwise>
-			<link_name>prop_front_left</link_name>
+			<propeller_link>propeller_2</propeller_link>
 		</plugin>
 	</gazebo>
-	
-	<gazebo>
-		<!-- Provide a Negative Velocity -->
-		<plugin name="quad_prop3" filename="libPropPlugin.so">
-			<ct>1.276e-5</ct>
-			<clockwise>1</clockwise>
-			<link_name>prop_back_right</link_name>
-		</plugin>
-	</gazebo>
-	
+
 	<gazebo>
 		<!-- Provide a Positive Velocity -->
-		<plugin name="quad_prop4" filename="libPropPlugin.so">
+		<plugin name="quad_prop3" filename="libUAVDynamicsPlugin.so">
+			<type>thrust</type>
 			<ct>1.276e-5</ct>
 			<clockwise>0</clockwise>
-			<link_name>prop_back_left</link_name>
+			<propeller_link>propeller_3</propeller_link>
 		</plugin>
 	</gazebo>
-	
+
+	<gazebo>
+		<!-- Provide a Negative Velocity -->
+		<plugin name="quad_prop4" filename="libUAVDynamicsPlugin.so">
+			<type>thrust</type>
+			<ct>1.276e-5</ct>
+			<clockwise>1</clockwise>
+			<propeller_link>propeller_4</propeller_link>
+		</plugin>
+	</gazebo>
+
 	<!-- ======================================================== -->
 	<!-- Define ros_control plugin -->
 		<gazebo>

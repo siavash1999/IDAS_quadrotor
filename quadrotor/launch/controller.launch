@@ -1,0 +1,76 @@
+<launch>
+  <!-- Controllers for position control -->
+  <group ns="position_controller" >
+    <node name="altitude_controller" pkg="pid" type="controller" output="screen" >
+      <param name="node_name" value="altitude_controller" />
+      <param name="Kp" value="3.7" />
+      <param name="Ki" value="0.0175763028202864" />
+      <param name="Kd" value="5" />
+      <param name="cutoff_frequency" value="5.45397025421619"/>
+      <param name="upper_limit" value="115" />
+      <param name="lower_limit" value="-115" />
+      <param name="max_loop_frequency" value="120" />
+      <param name="min_loop_frequency" value="80" />
+      <param name="setpoint_topic" value="/quadrotor/setpoint/altitude" />
+      <param name="topic_from_plant" value="/quadrotor/state/altitude" />
+      <param name="topic_from_controller" value="/quadrotor/efforts/thrust" />
+     </node>
+
+     <!-- <node name="x_controller" pkg="pid" type="controller" output="screen" >
+       <param name="node_name" value="x_controller" />
+       <param name="Kp" value="1" />
+       <param name="Ki" value="0" />
+       <param name="Kd" value="0" />
+       <param name="cutoff_frequency" value="0"/>
+       <param name="max_loop_frequency" value="120" />
+       <param name="min_loop_frequency" value="80" />
+       <param name="setpoint_topic" value="/quadrotor/setpoint/x" />
+       <param name="topic_from_plant" value="/quadrotor/state/x" />
+       <param name="topic_from_controller" value="/quadrotor/dynamic_setpoint/u" />
+      </node>
+
+      <node name="u_controller" pkg="pid" type="controller" output="screen" >
+        <param name="node_name" value="u_controller" />
+        <param name="Kp" value="1" />
+        <param name="Ki" value="0" />
+        <param name="Kd" value="0" />
+        <param name="windup_limit" value="1" />
+        <param name="cutoff_frequency" value="5"/>
+        <param name="upper_limit" value="115" />
+        <param name="lower_limit" value="-115" />
+        <param name="max_loop_frequency" value="120" />
+        <param name="min_loop_frequency" value="80" />
+        <param name="setpoint_topic" value="/quadrotor/dynamic_setpoint/u" />
+        <param name="topic_from_plant" value="/quadrotor/state/u" />
+        <param name="topic_from_controller" value="/quadrotor/dynamic_setpoint/pitch" />
+      </node> -->
+  </group>
+
+  <!-- Controllers for attitude control -->
+  <group ns="attitude_controller" >
+    <node name="pitch_controller" pkg="pid" type="controller" output="screen" >
+      <param name="node_name" value="roll_controller" />
+      <param name="Kp" value="1" />
+      <param name="Ki" value="0" />
+      <param name="Kd" value="0" />
+      <param name="max_loop_frequency" value="120" />
+      <param name="min_loop_frequency" value="80" />
+      <param name="setpoint_topic" value="/quadrotor/setpoint/pitch" />
+      <param name="topic_from_plant" value="/quadrotor/state/pitch" />
+      <param name="topic_from_controller" value="/quadrotor/dynamic_setpoint/q" />
+    </node>
+
+    <node name="q_controller" pkg="pid" type="controller" output="screen" >
+      <param name="node_name" value="roll_controller" />
+      <param name="Kp" value="200" />
+      <param name="Ki" value="0" />
+      <param name="Kd" value="30" />
+      <param name="cutoff_frequency" value="2"/>
+      <param name="max_loop_frequency" value="120" />
+      <param name="min_loop_frequency" value="80" />
+      <param name="setpoint_topic" value="/quadrotor/dynamic_setpoint/q" />
+      <param name="topic_from_plant" value="/quadrotor/state/q" />
+      <param name="topic_from_controller" value="/quadrotor/efforts/Ty" />
+   </node>
+  </group>
+</launch>

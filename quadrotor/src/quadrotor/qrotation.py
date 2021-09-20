@@ -13,4 +13,4 @@ def mult(q1, q2):
 
 def qv_mult(q1, v1):
 	q2 = v1 + [0]
-	return mult(mult(q1, q2), conjugate(q1))[:3]
+	return mult(mult(conjugate(q1), q2), q1)[:3]

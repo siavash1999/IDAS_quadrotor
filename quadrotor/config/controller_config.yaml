@@ -1,18 +1,17 @@
-#Parameters for publishing all joints states with 50Hz frequency:
-joint_state_controller:
-  type: joint_state_controller/JointStateController
-  publish_rate: 50
-
 #Parameters for controlling propeller motors velocity with PID method (Doesn't affect anything!!)
-joint_motor_controller:
+joint_state_publisher:
+  type: joint_state_controller/JointStateController
+  publish_rate: 100
+
+motor_controller:
   type: velocity_controllers/JointGroupVelocityController
-  joints: 
-    - joint_front_right_prop
-    - joint_front_left_prop
-    - joint_back_left_prop
-    - joint_back_right_prop
+  joints:
+    - joint_propeller_1
+    - joint_propeller_2
+    - joint_propeller_3
+    - joint_propeller_4
   gains:
-    joint_front_right_prop: {p: 1, i: 0, d: 0}
-    joint_front_left_prop: {p: 1, i: 0, d: 0}
-    joint_back_left_prop: {p: 1, i: 0, d: 0}
-    joint_back_right_prop: {p: 1, i: 0, d: 0}
+    joint_propeller_1: {p: 1, i: 0, d: 0}
+    joint_propeller_2: {p: 1, i: 0, d: 0}
+    joint_propeller_3: {p: 1, i: 0, d: 0}
+    joint_propeller_4: {p: 1, i: 0, d: 0}

@@ -6,7 +6,8 @@ from catkin_pkg.python_setup import generate_distutils_setup
 # fetch values from package.xml
 setup_args = generate_distutils_setup(
     packages=['quadrotor'],
-    scripts=['scripts/hover_control.py'],
+    scripts=['scripts/state_publisher.py',
+             'scripts/quadrotor_init.py'],
     package_dir={'': 'src'},
 )
 
