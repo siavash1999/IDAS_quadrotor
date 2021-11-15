@@ -3,39 +3,75 @@
 <robot>
 	<gazebo reference="frame">
 		<mu1>0</mu1>
-    <mu2>0</mu2>
+		<mu2>0</mu2>
 		<selfCollide>0</selfCollide>
 		<material>Gazebo/Red</material>
 	</gazebo>
 
 	<gazebo reference="propeller_1">
 		<mu1>0</mu1>
-    <mu2>0</mu2>
+		<mu2>0</mu2>
 		<selfCollide>0</selfCollide>
 		<material>Gazebo/White</material>
 	</gazebo>
 
 	<gazebo reference="propeller_2">
 		<mu1>0</mu1>
-    <mu2>0</mu2>
+		<mu2>0</mu2>
 		<selfCollide>0</selfCollide>
 		<material>Gazebo/Black</material>
 	</gazebo>
 
 	<gazebo reference="propeller_3">
 		<mu1>0</mu1>
-    <mu2>0</mu2>
+		<mu2>0</mu2>
 		<selfCollide>0</selfCollide>
 		<material>Gazebo/Black</material>
 	</gazebo>
 
 	<gazebo reference="propeller_4">
 		<mu1>0</mu1>
-    <mu2>0</mu2>
+		<mu2>0</mu2>
 		<selfCollide>0</selfCollide>
 		<material>Gazebo/White</material>
 	</gazebo>
 
+
+	<gazebo reference="imu_link">
+		<mu1>0</mu1>
+		<mu2>0</mu2>
+		<selfCollide>0</selfCollide>
+		<material>Gazebo/Black</material>
+		<gravity>true</gravity>
+		<sensor name="imu_sensor" type="imu">
+			<always_on>true</always_on>
+			<update_rate>100</update_rate>
+			<visualize>true</visualize>
+			<topic>__default_topic__</topic>
+			<plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+				<topicName>imu</topicName>
+				<bodyName>imu_link</bodyName>
+				<updateRateHZ>10.0</updateRateHZ>
+				<gaussianNoise>0.0</gaussianNoise>
+				<xyzOffset>0 0 0</xyzOffset>
+				<rpyOffset>0 0 0</rpyOffset>
+				<frameName>imu_link</frameName>
+				<initialOrientationAsReference>false</initialOrientationAsReference>
+			</plugin>
+			<pose>0 0 0 0 0 0</pose>
+		</sensor>
+	</gazebo>
+	
+	<gazebo>
+		<plugin name="imu_plugin" filename="libgazebo_ros_imu.so">
+			<alwaysOn>true</alwaysOn>
+			<bodyName>frame</bodyName>
+			<topicName>imu</topicName>
+			<serviceName>imu_service</serviceName>
+			<gaussianNoise>0.0</gaussianNoise>
+			<updateRate>20.0</updateRate>
+		</plugin>
+	</gazebo>
 <!-- ======================================================== -->
 	<!-- Define the lift-Drag plugin -->
 	<!-- for drag -->

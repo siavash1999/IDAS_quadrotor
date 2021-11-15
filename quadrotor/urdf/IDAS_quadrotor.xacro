@@ -52,6 +52,24 @@
 		<xacro:default_inertial mass="${frame_mass}" p="0" ix_value="${0.02130267}" iy_value="${0.02130267}" iz_value="${0.041772}" />
 	</link>
 
+	<!-- IMU Sensor link -->
+	<link name="imu_link">
+		<visual>
+			<origin xyz="0 0 0" rpy="0 0 0" />
+			<geometry>
+				<box size="0.03 0.03 0.01" />
+			</geometry>
+			<material name="black"/>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<geometry>
+				<box size="0.03 0.03 0.01" />
+			</geometry>
+			<xacro:default_inertial mass="0" p="0" ix_value="0" iy_value="0" iz_value="0" />
+		</collision>
+	</link>
+
 	<!-- Propellers (4 black boxes!) -->
 	<link name="propeller_1">
 		<visual>
@@ -170,6 +188,11 @@
 		<axis xyz="0 0 1" />
 	</joint>
 
+	<joint name="imu_joint" type="fixed">
+		<parent link="frame" />
+		<child link="imu_link" />
+		<origin xyz="0 0 ${height+0.005}" rpy="0 0 0" />
+	</joint>
 <!-- ======================================================== -->
 	<!-- Define Transmission Element for Propellers -->
 	<transmission name="motor_1">

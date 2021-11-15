@@ -16,7 +16,7 @@
       <param name="topic_from_controller" value="/quadrotor/efforts/thrust" />
      </node>
 
-     <!-- <node name="x_controller" pkg="pid" type="controller" output="screen" >
+     <node name="x_controller" pkg="pid" type="controller" output="screen" >
        <param name="node_name" value="x_controller" />
        <param name="Kp" value="1" />
        <param name="Ki" value="0" />
@@ -43,7 +43,7 @@
         <param name="setpoint_topic" value="/quadrotor/dynamic_setpoint/u" />
         <param name="topic_from_plant" value="/quadrotor/state/u" />
         <param name="topic_from_controller" value="/quadrotor/dynamic_setpoint/pitch" />
-      </node> -->
+      </node>
   </group>
 
   <!-- Controllers for attitude control -->
